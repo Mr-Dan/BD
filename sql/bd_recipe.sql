@@ -32,7 +32,7 @@ CREATE TABLE `recipe` (
   KEY `fk_Recipe_Dish1_idx` (`IdDish`),
   CONSTRAINT `fk_Recipe_Dish1` FOREIGN KEY (`IdDish`) REFERENCES `dish` (`IdDish`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Recipe_Products1` FOREIGN KEY (`IdProducts`) REFERENCES `products` (`IdProducts`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +44,24 @@ LOCK TABLES `recipe` WRITE;
 INSERT INTO `recipe` VALUES (1,3,1,8),(5,1,2,4),(6,2,2,3),(7,3,2,4),(8,4,2,5),(11,1,3,4),(12,2,3,5),(13,3,3,3),(14,4,3,1),(15,5,3,1);
 /*!40000 ALTER TABLE `recipe` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `BD`.`Recipe_BEFORE_INSERT` BEFORE INSERT ON `Recipe` FOR EACH ROW
+BEGIN
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -54,4 +72,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  1:50:19
+-- Dump completed on 2022-05-17  2:04:48

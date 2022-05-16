@@ -29,7 +29,7 @@ CREATE TABLE `dish` (
   `CostDish` decimal(12,0) NOT NULL,
   `ImageDish` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`IdDish`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,24 @@ LOCK TABLES `dish` WRITE;
 INSERT INTO `dish` VALUES (1,'Жаренная кортошка','20',100,'Images\\kartoshka.jpg'),(2,'Борщ','40',100,'Images\\borsh.jpg'),(3,'Картофельное рагу','30',60,'Images\\ragu.jpg'),(5,'Картофельное рагу','30',60,'Images\\ragu.jpg'),(6,'Картофельное рагу','30',60,'Images\\ragu.jpg'),(7,'Картофельное рагу1','30',60,'Images\\ragu.jpg');
 /*!40000 ALTER TABLE `dish` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `bd`.`dish_BEFORE_DELETE` BEFORE DELETE ON `dish` FOR EACH ROW
+BEGIN
+DELETE FROM recipe WHERE recipe.IdDish = OLD.IdDish;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -51,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  1:50:19
+-- Dump completed on 2022-05-17  2:04:48

@@ -30,7 +30,7 @@ CREATE TABLE `warehouse` (
   PRIMARY KEY (`IdProductsWarehouse`),
   KEY `fk_Warehouse_Products1_idx` (`IdProducts`),
   CONSTRAINT `fk_Warehouse_Products1` FOREIGN KEY (`IdProducts`) REFERENCES `products` (`IdProducts`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  1:50:19
+-- Dump completed on 2022-05-17  2:04:48
