@@ -29,9 +29,9 @@ namespace BD.Forms
 
         string connStr = "server=localhost;port=368;user=root;database=bd;password=kurkodan;charset=utf8mb4";
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            await UpdateDish();
+            UpdateDish();
             panelDishs.Controls.Clear();
             panelDishClasses.Clear();
 
@@ -76,8 +76,9 @@ namespace BD.Forms
             }
         }
 
-        private async Task UpdateDish()
+        private async void UpdateDish()
         {
+
             try
             {
                 MySqlConnection conn = new MySqlConnection(connStr);

@@ -20,12 +20,12 @@ namespace BD.Forms
             InitializeComponent();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            await UpdateOrders();
+             UpdateOrders();
         }
 
-        private async Task UpdateOrders()
+        private async void UpdateOrders()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace BD.Forms
             }
 
         }
-        private async Task UpdateOrdersList(int idOrder)
+        private async void UpdateOrdersList(int idOrder)
         {
             try
             {
@@ -91,11 +91,11 @@ namespace BD.Forms
             }
         }
 
-        private async void dataGridViewOrders_CellClick(object sender, DataGridViewCellEventArgs e)
+        private  void dataGridViewOrders_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
-                await UpdateOrdersList(Convert.ToInt32(dataGridViewOrders.Rows[e.RowIndex].Cells[0].Value));
+                 UpdateOrdersList(Convert.ToInt32(dataGridViewOrders.Rows[e.RowIndex].Cells[0].Value));
 
             }
             if (e.ColumnIndex == 4)
@@ -111,7 +111,7 @@ namespace BD.Forms
                         mySqlCommand.Parameters.AddWithValue("@IdOrder", Convert.ToInt32(dataGridViewOrders.Rows[e.RowIndex].Cells[0].Value));
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
-                        await UpdateOrders();
+                         UpdateOrders();
                     }
                 }
                 catch (MySqlException ex)
@@ -141,7 +141,7 @@ namespace BD.Forms
 
         }
 
-        private async void dataGridViewOrdersList_CellClick(object sender, DataGridViewCellEventArgs e)
+        private  void dataGridViewOrdersList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 5)
             {
@@ -166,10 +166,10 @@ namespace BD.Forms
                             mySqlCommand.Parameters.AddWithValue("@OrderStatus", "Готово");
                             mySqlCommand.Parameters.AddWithValue("@IdOrder", dataGridViewOrdersList.Rows[e.RowIndex].Cells[2].Value);
                             mySqlCommand.ExecuteNonQuery();
-                            await UpdateOrders();
+                             UpdateOrders();
                         }
                         conn.Close();
-                        await UpdateOrdersList(Convert.ToInt32(dataGridViewOrdersList.Rows[e.RowIndex].Cells[2].Value));
+                         UpdateOrdersList(Convert.ToInt32(dataGridViewOrdersList.Rows[e.RowIndex].Cells[2].Value));
                     }
                 }
                 catch (MySqlException ex)

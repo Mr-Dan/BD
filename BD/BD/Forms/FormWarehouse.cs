@@ -24,12 +24,10 @@ namespace BD.Forms
             dateTimePickerShelfLifeProduct.Format = DateTimePickerFormat.Custom;
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private  void button1_Click(object sender, EventArgs e)
         {
-
-
-            await UpdateWarehouseAsync();
-            await UpdateProductAsync(dataGridViewProducts);
+             UpdateWarehouseAsync();
+             UpdateProductAsync(dataGridViewProducts);
 
         }
 
@@ -48,7 +46,7 @@ namespace BD.Forms
             panelProduct.Visible = false;
         }
 
-        private async void buttonProductDone_Click(object sender, EventArgs e)
+        private  void buttonProductDone_Click(object sender, EventArgs e)
         {
             try
             {
@@ -71,7 +69,7 @@ namespace BD.Forms
                         conn.Close();
 
                         panelProduct.Visible = false;
-                        await UpdateProductAsync(dataGridViewProducts);
+                         UpdateProductAsync(dataGridViewProducts);
                     }
                 }
                 else MessageBox.Show(products.ErrorString);
@@ -90,7 +88,7 @@ namespace BD.Forms
             dataGridViewProductsGet.Visible = false;
         }
 
-        private async void buttonWarehouseDone_Click(object sender, EventArgs e)
+        private  void buttonWarehouseDone_Click(object sender, EventArgs e)
         {
             try
             {
@@ -121,7 +119,7 @@ namespace BD.Forms
               
             }
             panelWarehouse.Visible = false;
-            await UpdateWarehouseAsync();
+             UpdateWarehouseAsync();
         }
 
         private void dataGridViewWarehouse_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -129,7 +127,7 @@ namespace BD.Forms
 
         }
 
-        private async Task UpdateWarehouseAsync()
+        private async void UpdateWarehouseAsync()
         {
             try
             {
@@ -163,7 +161,7 @@ namespace BD.Forms
             }
         }
 
-        private async Task UpdateProductAsync(DataGridView dataGridView)
+        private async void UpdateProductAsync(DataGridView dataGridView)
         {
             try
             {
@@ -193,7 +191,7 @@ namespace BD.Forms
                 MessageBox.Show(ex.Message);
             }
         }
-        private async void dataGridViewWarehouse_CellClick(object sender, DataGridViewCellEventArgs e)
+        private  void dataGridViewWarehouse_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //update
             if (e.ColumnIndex == 6)
@@ -219,7 +217,7 @@ namespace BD.Forms
                             mySqlCommand.ExecuteNonQuery();
                             conn.Close();
                         }
-                        await UpdateWarehouseAsync();
+                         UpdateWarehouseAsync();
                     }
                     else MessageBox.Show(warehouse.ErrorString);
                 }
@@ -245,7 +243,7 @@ namespace BD.Forms
                         conn.Close();
 
                     }
-                    await UpdateWarehouseAsync();
+                     UpdateWarehouseAsync();
                 }
                 catch (MySqlException ex)
                 {
@@ -255,7 +253,7 @@ namespace BD.Forms
 
         }
 
-        private async void dataGridViewProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        private  void dataGridViewProducts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //update
             if (e.ColumnIndex == 3)
@@ -278,7 +276,7 @@ namespace BD.Forms
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
                     }
-                    await UpdateProductAsync(dataGridViewProducts);
+                     UpdateProductAsync(dataGridViewProducts);
                 }
                 catch (MySqlException ex)
                 {
@@ -303,7 +301,7 @@ namespace BD.Forms
                         conn.Close();
 
                     }
-                    await UpdateProductAsync(dataGridViewProducts);
+                     UpdateProductAsync(dataGridViewProducts);
                 }
                 catch (MySqlException ex)
                 {
@@ -313,10 +311,10 @@ namespace BD.Forms
 
         }
 
-        private async void buttonGetIdProduct_Click(object sender, EventArgs e)
+        private  void buttonGetIdProduct_Click(object sender, EventArgs e)
         {
             dataGridViewProductsGet.Visible = true;
-            await UpdateProductAsync(dataGridViewProductsGet);
+             UpdateProductAsync(dataGridViewProductsGet);
         }
 
         private void dataGridViewProductsGet_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -327,10 +325,10 @@ namespace BD.Forms
 
         }
 
-        private async void textBoxIdProducts_Click(object sender, EventArgs e)
+        private  void textBoxIdProducts_Click(object sender, EventArgs e)
         {
             dataGridViewProductsGet.Visible = true;
-            await UpdateProductAsync(dataGridViewProductsGet);
+             UpdateProductAsync(dataGridViewProductsGet);
         }
     }
 }

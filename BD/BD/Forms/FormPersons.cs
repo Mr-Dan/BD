@@ -24,10 +24,10 @@ namespace BD.Forms
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            await UpdatePersonsAsync();
+             UpdatePersonsAsync();
         }
 
-        private async void dataGridViewPersons_CellClick(object sender, DataGridViewCellEventArgs e)
+        private  void dataGridViewPersons_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace BD.Forms
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
                     }
-                    await UpdatePersonsAsync();
+                     UpdatePersonsAsync();
                 }
                 //delete
                 else if (e.ColumnIndex == 7)
@@ -63,7 +63,7 @@ namespace BD.Forms
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
                     }
-                    await UpdatePersonsAsync();
+                     UpdatePersonsAsync();
                 }
             }
             catch (MySqlException ex)
@@ -72,7 +72,7 @@ namespace BD.Forms
             }
         }
 
-        private async Task UpdatePersonsAsync()
+        private async void UpdatePersonsAsync()
         {
             try
             {
@@ -114,7 +114,7 @@ namespace BD.Forms
             panelPersons.Visible = false;
         }
 
-        private async void buttonPersonDone_Click(object sender, EventArgs e)
+        private  void buttonPersonDone_Click(object sender, EventArgs e)
         {
             Person person = new Person();
             person.NamePerson = textBoxPersonName.Text;
@@ -140,7 +140,7 @@ namespace BD.Forms
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
                         panelPersons.Visible = false;
-                        await UpdatePersonsAsync();
+                        UpdatePersonsAsync();
                     }
                 }
                 catch (MySqlException ex)

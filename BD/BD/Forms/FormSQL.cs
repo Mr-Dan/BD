@@ -37,7 +37,7 @@ namespace BD.Forms
                     }
                 }
                 else
-                    await UpdatePersonsAsync();
+                     UpdatePersonsAsync();
             }
             catch (MySqlException ex)
             {
@@ -47,7 +47,7 @@ namespace BD.Forms
             
         }
 
-        private async Task UpdatePersonsAsync()
+        private async void UpdatePersonsAsync()
         {
             try
             {
