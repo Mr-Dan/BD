@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `warehouse`;
 CREATE TABLE `warehouse` (
   `IdProductsWarehouse` int(11) NOT NULL AUTO_INCREMENT,
   `IdProducts` int(11) NOT NULL,
-  `CountProduct` decimal(12,0) NOT NULL,
+  `CountProduct` double NOT NULL,
   `ShelfLifeProduct` varchar(45) NOT NULL,
   PRIMARY KEY (`IdProductsWarehouse`),
   KEY `fk_Warehouse_Products1_idx` (`IdProducts`),
@@ -39,7 +39,7 @@ CREATE TABLE `warehouse` (
 
 LOCK TABLES `warehouse` WRITE;
 /*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
-INSERT INTO `warehouse` VALUES (1,1,230,'05-15-2022 11:09:21'),(2,1,230,'05-15-2022 12:09:21'),(4,3,40,'05-15-2022 18:09:21'),(5,4,10,'05-15-2022 16:09:21'),(6,3,44,'05-17-2022 00:19:04'),(7,6,44,'05-17-2022 00:15:04');
+INSERT INTO `warehouse` VALUES (1,1,230,'05-15-2022 11:09:21'),(2,1,230,'05-15-2022 12:09:21'),(4,3,16,'05-15-2022 18:09:21'),(5,4,10,'05-15-2022 16:09:21'),(6,3,44,'05-17-2022 00:19:04'),(7,6,44,'05-17-2022 00:15:04');
 /*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  2:04:48
+-- Dump completed on 2022-05-20  9:37:30

@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `IdOrder` int(11) NOT NULL AUTO_INCREMENT,
   `OrderStatus` varchar(45) NOT NULL DEFAULT 'В процессе',
-  `Total` decimal(12,0) NOT NULL,
+  `Total` double NOT NULL,
   `DataTimeOrder` varchar(45) NOT NULL,
   PRIMARY KEY (`IdOrder`)
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
@@ -37,7 +37,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (29,'Готово',400,'05-16-2022 18:15:03'),(30,'Готово',120,'05-16-2022 18:35:07'),(31,'Готово',180,'05-16-2022 18:35:12'),(32,'В процессе',60,'05-17-2022 00:58:03'),(33,'Готово',60,'05-17-2022 00:58:40');
+INSERT INTO `orders` VALUES (29,'Готово',400,'05-16-2022 18:15:03'),(30,'В процессе',200,'05-20-2022 09:24:22'),(31,'В процессе',100,'05-20-2022 09:24:24'),(32,'В процессе',75,'05-20-2022 09:24:30'),(33,'В процессе',160,'05-20-2022 09:24:34');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -68,4 +68,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  2:04:48
+-- Dump completed on 2022-05-20  9:37:30

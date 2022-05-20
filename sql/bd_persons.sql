@@ -29,8 +29,12 @@ CREATE TABLE `persons` (
   `MiddleNamePerson` varchar(45) NOT NULL,
   `PositionPerson` varchar(45) NOT NULL,
   `AgePerson` int(11) NOT NULL,
-  PRIMARY KEY (`idPerson`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `login` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `privileges` varchar(45) NOT NULL,
+  PRIMARY KEY (`idPerson`),
+  UNIQUE KEY `login_UNIQUE` (`login`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +43,7 @@ CREATE TABLE `persons` (
 
 LOCK TABLES `persons` WRITE;
 /*!40000 ALTER TABLE `persons` DISABLE KEYS */;
-INSERT INTO `persons` VALUES (2,'Дан','Курко','Иванович','Директор',21);
+INSERT INTO `persons` VALUES (2,'Дан','Курко','Иванович','Директор',21,'dan','dankurko','admin'),(3,'Максим','Черкасов','Сергеевич','Повор',20,'max','max','worker');
 /*!40000 ALTER TABLE `persons` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  2:04:48
+-- Dump completed on 2022-05-20  9:37:29
