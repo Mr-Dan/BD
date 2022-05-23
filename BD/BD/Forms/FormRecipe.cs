@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using BD.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,6 @@ namespace BD.Forms
         }
 
         int idDish = 0;
-        string nameDish = "";
         string connStr = "server=localhost;port=368;user=root;database=bd;password=kurkodan;charset=utf8mb4";
 
         private void dataGridView1_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
@@ -34,30 +34,39 @@ namespace BD.Forms
 
         private void buttonDishDone_Click(object sender, EventArgs e)
         {
-
-            try
+            Dish dish = new Dish();
+            dish.NameDish = textBoxDishName.Text;
+            dish.ReadytTmeDish = textBoxReadytTmeDish.Text;
+            dish.CostDish = textBoxCostDish.Text;
+            dish.ImageDish = textBoxImage.Text;
+            dish.TypeDish = textBoxTypeDish.Text;
+            if (dish.IsTrue)
             {
-                MySqlConnection conn = new MySqlConnection(connStr);
-                conn.Open();
-                if (conn.State == ConnectionState.Open)
+                try
                 {
-                    MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO dish (NameDish,ReadytTmeDish,CostDish,ImageDish,TypeDish) VALUES (@NameDish,@ReadytTmeDish,@CostDish,@ImageDish,@TypeDish)", conn);
-                    mySqlCommand.Parameters.AddWithValue("@NameDish", textBoxDishName.Text);
-                    mySqlCommand.Parameters.AddWithValue("@ReadytTmeDish", Convert.ToDouble(textBoxReadytTmeDish.Text));
-                    mySqlCommand.Parameters.AddWithValue("@CostDish", textBoxCostDish.Text);
-                    mySqlCommand.Parameters.AddWithValue("@ImageDish", textBoxImage.Text);
-                    mySqlCommand.Parameters.AddWithValue("@TypeDish", textBoxTypeDish.Text);
+                    MySqlConnection conn = new MySqlConnection(connStr);
+                    conn.Open();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO dish (NameDish,ReadytTmeDish,CostDish,ImageDish,TypeDish) VALUES (@NameDish,@ReadytTmeDish,@CostDish,@ImageDish,@TypeDish)", conn);
+                        mySqlCommand.Parameters.AddWithValue("@NameDish", dish.NameDish);
+                        mySqlCommand.Parameters.AddWithValue("@ReadytTmeDish", dish.ReadytTmeDish);
+                        mySqlCommand.Parameters.AddWithValue("@CostDish", dish.CostDish);
+                        mySqlCommand.Parameters.AddWithValue("@ImageDish", dish.ImageDish);
+                        mySqlCommand.Parameters.AddWithValue("@TypeDish", dish.TypeDish);
 
-                    mySqlCommand.ExecuteNonQuery();
-                    //MessageBox.Show(mySqlCommand.LastInsertedId.ToString());
-                    conn.Close();
+                        mySqlCommand.ExecuteNonQuery();
+                        //MessageBox.Show(mySqlCommand.LastInsertedId.ToString());
+                        conn.Close();
+                    }
                 }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                UpdateDish("SELECT * FROM dish");
             }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            UpdateDish("SELECT * FROM dish");
+            else { MessageBox.Show(dish.ErrorString); }
         }
 
         private async void UpdateDish(string cmdText)
@@ -68,12 +77,15 @@ namespace BD.Forms
                 conn.Open();
                 if (conn.State == ConnectionState.Open)
                 {
-                    MySqlCommand mySqlCommand = new MySqlCommand(cmdText, conn);
+                    comboBoxTypeDish.Items.Clear();
+                    comboBoxTypeDish.Text = "";
+                       MySqlCommand mySqlCommand = new MySqlCommand(cmdText, conn);
                     DbDataReader reader = await mySqlCommand.ExecuteReaderAsync();
                     dataGridViewDish.Rows.Clear();
                     dishType.Clear();
                     while (reader.Read())
                     {
+                        // DESCRIBE dish;
                         dataGridViewDish.Rows.Add(
                             new object[]
                             {
@@ -83,7 +95,11 @@ namespace BD.Forms
                             reader[3].ToString(),
                             reader[4].ToString(),
                             reader[5].ToString(),
+                            reader[6].ToString(),
                             });
+                        // dataGridViewDish.collumn[dataGridViewDish.Rows.Count-1].
+                        // dataGridViewDish.Columns[0].Name
+                        // DESCRIBE  dish; 
                         if (dishType.Contains(reader[5].ToString()) == false) dishType.Add(reader[5].ToString());
                     }
                     reader.Close();
@@ -106,8 +122,8 @@ namespace BD.Forms
                 conn.Open();
                 if (conn.State == ConnectionState.Open)
                 {
-                    string mySql = $"SELECT * FROM recipe WHERE idDish={idDish}";
-                    MySqlCommand mySqlCommand = new MySqlCommand($"SELECT * FROM recipe WHERE idDish=@idDish", conn);
+                    //SELECT * FROM recipe r  INNER JOIN products p ON p.IdProducts=r.IdProducts WHERE idDish=1
+                    MySqlCommand mySqlCommand = new MySqlCommand($"SELECT * FROM recipe r  INNER JOIN products p ON p.IdProducts=r.IdProducts WHERE idDish=@idDish", conn);
                     mySqlCommand.Parameters.AddWithValue("@idDish", idDish);
                     DbDataReader reader = await mySqlCommand.ExecuteReaderAsync();
                     dataGridViewRecipe.Rows.Clear();
@@ -119,7 +135,9 @@ namespace BD.Forms
                             reader[2].ToString(),
                             reader[0].ToString(),
                             reader[1].ToString(),
-                            reader[3].ToString()
+                            reader[5].ToString(),
+                            reader[3].ToString(),
+                            reader[6].ToString()
                             });
                     }
                     reader.Close();
@@ -141,62 +159,80 @@ namespace BD.Forms
             if (e.ColumnIndex == 0)
             {
                 idDish = Convert.ToInt32(dataGridViewDish.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
-                nameDish = dataGridViewDish.Rows[e.RowIndex].Cells[1].Value.ToString();
+
                 panelRecipe.Visible = true;
                 // panelRecipe.Location = new Point(e.);
                 UpdateRecipte(idDish);
 
             }
             //update
-            else if (e.ColumnIndex == 6)
-            {
-                try
-                {
-                    MySqlConnection conn = new MySqlConnection(connStr);
-                    conn.Open();
-
-                    if (conn.State == ConnectionState.Open)
-                    {
-
-                        MySqlCommand mySqlCommand = new MySqlCommand("UPDATE dish SET NameDish=@NameDish,ReadytTmeDish=@ReadytTmeDish,CostDish=@CostDish,ImageDish=@ImageDish,TypeDish=@TypeDish WHERE IdDish = @IdDish", conn);
-                        mySqlCommand.Parameters.AddWithValue("@IdDish", dataGridViewDish.Rows[e.RowIndex].Cells[0].Value);
-                        mySqlCommand.Parameters.AddWithValue("@NameDish", dataGridViewDish.Rows[e.RowIndex].Cells[1].Value);
-                        mySqlCommand.Parameters.AddWithValue("@ReadytTmeDish", dataGridViewDish.Rows[e.RowIndex].Cells[2].Value);
-                        mySqlCommand.Parameters.AddWithValue("@CostDish", Convert.ToDouble(dataGridViewDish.Rows[e.RowIndex].Cells[3].Value));
-                        mySqlCommand.Parameters.AddWithValue("@ImageDish", dataGridViewDish.Rows[e.RowIndex].Cells[4].Value);
-                        mySqlCommand.Parameters.AddWithValue("@TypeDish", dataGridViewDish.Rows[e.RowIndex].Cells[5].Value);
-                        mySqlCommand.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                    UpdateDish("SELECT * FROM dish");
-                }
-                catch (MySqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            //delete
             else if (e.ColumnIndex == 7)
             {
-                try
+                Dish dish = new Dish();
+                dish.IdDish = dataGridViewDish.Rows[e.RowIndex].Cells[0].Value.ToString();
+                dish.NameDish = dataGridViewDish.Rows[e.RowIndex].Cells[1].Value.ToString();
+                dish.ReadytTmeDish = dataGridViewDish.Rows[e.RowIndex].Cells[2].Value.ToString();
+                dish.CostDish = dataGridViewDish.Rows[e.RowIndex].Cells[3].Value.ToString();
+                dish.ImageDish = dataGridViewDish.Rows[e.RowIndex].Cells[4].Value.ToString();
+                dish.TypeDish = dataGridViewDish.Rows[e.RowIndex].Cells[5].Value.ToString();
+                if (dish.IsTrue)
                 {
-                    MySqlConnection conn = new MySqlConnection(connStr);
-                    conn.Open();
-
-                    if (conn.State == ConnectionState.Open)
+                    try
                     {
-                        MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM dish WHERE IdDish = @IdDish", conn);
-                        mySqlCommand.Parameters.AddWithValue("@IdDish", Convert.ToInt32(dataGridViewDish.Rows[e.RowIndex].Cells[0].Value));
-                        mySqlCommand.ExecuteNonQuery();
-                        conn.Close();
+                        MySqlConnection conn = new MySqlConnection(connStr);
+                        conn.Open();
 
+                        if (conn.State == ConnectionState.Open)
+                        {
+
+                            MySqlCommand mySqlCommand = new MySqlCommand("UPDATE dish SET NameDish=@NameDish,ReadytTmeDish=@ReadytTmeDish,CostDish=@CostDish,ImageDish=@ImageDish,TypeDish=@TypeDish WHERE IdDish = @IdDish", conn);
+                            mySqlCommand.Parameters.AddWithValue("@IdDish", dish.IdDish);
+                            mySqlCommand.Parameters.AddWithValue("@NameDish", dish.NameDish);
+                            mySqlCommand.Parameters.AddWithValue("@ReadytTmeDish", dish.ReadytTmeDish);
+                            mySqlCommand.Parameters.AddWithValue("@CostDish", dish.CostDish);
+                            mySqlCommand.Parameters.AddWithValue("@ImageDish", dish.ImageDish);
+                            mySqlCommand.Parameters.AddWithValue("@TypeDish", dish.TypeDish);
+                            mySqlCommand.ExecuteNonQuery();
+                            conn.Close();
+                        }
+                        UpdateDish("SELECT * FROM dish");
                     }
-                    UpdateDish("SELECT * FROM dish");
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (MySqlException ex)
+                else { MessageBox.Show(dish.ErrorString); }
+            }
+            //delete
+            else if (e.ColumnIndex == 8)
+            {
+                Dish dish = new Dish();
+                dish.IdDish = dataGridViewDish.Rows[e.RowIndex].Cells[0].Value.ToString();
+                if (dish.IsTrue)
                 {
-                    MessageBox.Show(ex.Message);
+                    try
+                    {
+                        MySqlConnection conn = new MySqlConnection(connStr);
+                        conn.Open();
+
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM dish WHERE IdDish = @IdDish", conn);
+                            mySqlCommand.Parameters.AddWithValue("@IdDish", dataGridViewDish.Rows[e.RowIndex].Cells[0].Value);
+                            mySqlCommand.ExecuteNonQuery();
+                            conn.Close();
+
+                        }
+                        UpdateDish("SELECT * FROM dish");
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
                 }
+                else { MessageBox.Show(dish.ErrorString); }
             }
         }
 
@@ -214,25 +250,42 @@ namespace BD.Forms
                         {
                             if (dataGridViewRecipe.Rows[i].Cells[2].Value.ToString().Length > 0)
                             {
-                                MySqlCommand mySqlCommand = new MySqlCommand("UPDATE recipe SET IdProducts=@IdProducts,IdDish=@IdDish,Needed_amount=@Needed_amount WHERE Idrecipe=@Idrecipe", conn);
-                                mySqlCommand.Parameters.AddWithValue("@Idrecipe", Convert.ToInt32(dataGridViewRecipe.Rows[i].Cells[1].Value));
-                                mySqlCommand.Parameters.AddWithValue("@IdProducts", Convert.ToInt32(dataGridViewRecipe.Rows[i].Cells[2].Value));
-                                mySqlCommand.Parameters.AddWithValue("@IdDish", Convert.ToInt32(dataGridViewRecipe.Rows[i].Cells[0].Value));
-                                mySqlCommand.Parameters.AddWithValue("@Needed_amount", Convert.ToDouble(dataGridViewRecipe.Rows[i].Cells[3].Value));
+                                Recipe recipe = new Recipe();
+                                recipe.Idrecipe = dataGridViewRecipe.Rows[i].Cells[1].Value.ToString();
+                                recipe.IdProducts = dataGridViewRecipe.Rows[i].Cells[2].Value.ToString();
+                                recipe.IdDish = dataGridViewRecipe.Rows[i].Cells[0].Value.ToString();
+                                recipe.Needed_amount = dataGridViewRecipe.Rows[i].Cells[4].Value.ToString();
+                                if (recipe.IsTrue)
+                                {
+                                    MySqlCommand mySqlCommand = new MySqlCommand("UPDATE recipe SET IdProducts=@IdProducts,IdDish=@IdDish,Needed_amount=@Needed_amount WHERE Idrecipe=@Idrecipe", conn);
+                                    mySqlCommand.Parameters.AddWithValue("@Idrecipe", recipe.Idrecipe);
+                                    mySqlCommand.Parameters.AddWithValue("@IdProducts", recipe.IdProducts);
+                                    mySqlCommand.Parameters.AddWithValue("@IdDish", recipe.IdDish);
+                                    mySqlCommand.Parameters.AddWithValue("@Needed_amount", recipe.Needed_amount);
 
-                                mySqlCommand.ExecuteNonQuery();
+                                    mySqlCommand.ExecuteNonQuery();
+                                }
+                                else { MessageBox.Show(recipe.ErrorString); }
                             }
                         }
                         else
                         {
                             if (dataGridViewRecipe.Rows[i].Cells[2].Value.ToString().Length > 0)
                             {
-                                MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO recipe (IdProducts, IdDish,Needed_amount) VALUES (@IdProducts, @IdDish,@Needed_amount)", conn);
-                                mySqlCommand.Parameters.AddWithValue("@IdProducts", Convert.ToInt32(dataGridViewRecipe.Rows[i].Cells[2].Value));
-                                mySqlCommand.Parameters.AddWithValue("@IdDish", Convert.ToInt32(dataGridViewRecipe.Rows[i].Cells[0].Value));
-                                mySqlCommand.Parameters.AddWithValue("@Needed_amount", Convert.ToDouble(dataGridViewRecipe.Rows[i].Cells[3].Value));
+                                Recipe recipe = new Recipe();
+                                recipe.IdProducts = dataGridViewRecipe.Rows[i].Cells[2].Value.ToString();
+                                recipe.IdDish = dataGridViewRecipe.Rows[i].Cells[0].Value.ToString();
+                                recipe.Needed_amount = dataGridViewRecipe.Rows[i].Cells[4].Value.ToString();
+                                if (recipe.IsTrue)
+                                {
+                                    MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO recipe (IdProducts, IdDish,Needed_amount) VALUES (@IdProducts, @IdDish,@Needed_amount)", conn);
+                                    mySqlCommand.Parameters.AddWithValue("@IdProducts", recipe.IdProducts);
+                                    mySqlCommand.Parameters.AddWithValue("@IdDish", recipe.IdDish);
+                                    mySqlCommand.Parameters.AddWithValue("@Needed_amount", recipe.Needed_amount);
 
-                                mySqlCommand.ExecuteNonQuery();
+                                    mySqlCommand.ExecuteNonQuery();
+                                }
+                                else { MessageBox.Show(recipe.ErrorString); }
                             }
                         }
 
@@ -251,22 +304,28 @@ namespace BD.Forms
 
         private void dataGridViewRecipe_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 4)
+            if (e.ColumnIndex == 6)
             {
                 if (dataGridViewRecipe.Rows[e.RowIndex].Cells[1].Value.ToString() != "Auto")
                 {
                     try
                     {
-                        MySqlConnection conn = new MySqlConnection(connStr);
-                        conn.Open();
-                        if (conn.State == ConnectionState.Open)
+                        Recipe recipe = new Recipe();
+                        recipe.Idrecipe = dataGridViewRecipe.Rows[e.RowIndex].Cells[1].Value.ToString();                
+                        if (recipe.IsTrue)
                         {
-                            MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM recipe WHERE Idrecipe=@Idrecipe", conn);
-                            mySqlCommand.Parameters.AddWithValue("@Idrecipe", Convert.ToInt32(dataGridViewRecipe.Rows[e.RowIndex].Cells[1].Value));
-                            mySqlCommand.ExecuteNonQuery();
-                            conn.Close();
-                            UpdateRecipte(idDish);
+                            MySqlConnection conn = new MySqlConnection(connStr);
+                            conn.Open();
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM recipe WHERE Idrecipe=@Idrecipe", conn);
+                                mySqlCommand.Parameters.AddWithValue("@Idrecipe", recipe.Idrecipe);
+                                mySqlCommand.ExecuteNonQuery();
+                                conn.Close();
+                                UpdateRecipte(idDish);
+                            }
                         }
+                        else { MessageBox.Show(recipe.ErrorString); }
                     }
                     catch (MySqlException ex)
                     {
@@ -298,7 +357,10 @@ namespace BD.Forms
                     {
                         idDish,
                         "Auto",
-                        dataGridViewProduct.Rows[e.RowIndex].Cells[0].Value
+                        dataGridViewProduct.Rows[e.RowIndex].Cells[0].Value,
+                        dataGridViewProduct.Rows[e.RowIndex].Cells[1].Value,
+                        0,
+                        dataGridViewProduct.Rows[e.RowIndex].Cells[2].Value
                     }
                 );
 
@@ -370,14 +432,20 @@ namespace BD.Forms
 
         private void buttonCostUp_Click(object sender, EventArgs e)
         {
-            costProcedure(Convert.ToInt32(textBoxPercentage.Text));
+            int percentage = 0;
+            bool success = int.TryParse(textBoxPercentage.Text, out percentage);
+            if (success) costProcedure(percentage);
+            else MessageBox.Show("Ошибка в процентах");
         }
 
         private void buttonCostDown_Click(object sender, EventArgs e)
         {
-            costProcedure(-Convert.ToInt32(textBoxPercentage.Text));
+            int percentage = 0;
+            bool success = int.TryParse(textBoxPercentage.Text, out percentage);
+            if (success) costProcedure(-percentage);
+            else MessageBox.Show("Ошибка в процентах");
         }
-
+       
         private void costProcedure(int Percentage)
         {
             try
@@ -389,10 +457,15 @@ namespace BD.Forms
 
                     MySqlCommand mySqlCommand = new MySqlCommand("cost_procedure", conn);
                     mySqlCommand.CommandType = CommandType.StoredProcedure;
-                    mySqlCommand.Parameters.AddWithValue("@TypeD",comboBoxTypeDish.SelectedItem);
+                    mySqlCommand.Parameters.AddWithValue("@TypeD", comboBoxTypeDish.SelectedItem);
                     mySqlCommand.Parameters.AddWithValue("@persent", Percentage);
-                    mySqlCommand.ExecuteNonQuery();
+                    MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+                    while(mySqlDataReader.Read())
+                    {
+                        MessageBox.Show(mySqlDataReader[0].ToString());
 
+                    }
+                    
 
                     conn.Close();
                 }
@@ -414,7 +487,7 @@ namespace BD.Forms
                 conn.Open();
                 if (conn.State == ConnectionState.Open)
                 {
-                    MySqlCommand mySqlCommand = new MySqlCommand($"SELECT * FROM products WHERE IdProducts LIKE @IdProducts '%' OR NameProduct LIKE @NameProduct '%' " , conn);
+                    MySqlCommand mySqlCommand = new MySqlCommand($"SELECT * FROM products WHERE IdProducts LIKE @IdProducts '%' OR NameProduct LIKE @NameProduct '%' ", conn);
                     mySqlCommand.Parameters.AddWithValue("@IdProducts", textBox1.Text);
                     mySqlCommand.Parameters.AddWithValue("@NameProduct", textBox1.Text);
                     DbDataReader reader = await mySqlCommand.ExecuteReaderAsync();
@@ -439,14 +512,14 @@ namespace BD.Forms
             }
         }
 
-        private  void buttonSortDish_Click(object sender, EventArgs e)
+        private void buttonSortDish_Click(object sender, EventArgs e)
         {
             //ASC (по возрастанию) или DESC (по убыванию)
             string textcmd = "SELECT * FROM dish ORDER BY ";
             bool select = false;
-            if(comboBox1.SelectedIndex>-1)
+            if (comboBox1.SelectedIndex > -1)
             {
-                textcmd+= GetColumnName(comboBox1.SelectedItem.ToString())+",";
+                textcmd += GetColumnName(comboBox1.SelectedItem.ToString()) + ",";
                 select = true;
             }
             if (comboBox2.SelectedIndex > -1)
@@ -465,16 +538,16 @@ namespace BD.Forms
                 select = true;
             }
             textcmd = textcmd.Trim(',');
-            if (select == true)  UpdateDish(textcmd);
+            if (select == true) UpdateDish(textcmd);
         }
-
+        // DESCRIBE  dish; 
         private string GetColumnName(string text)
         {
             if (text.Contains("Название"))
             {
                 return "NameDish";
             }
-            else if(text.Contains("Время приготовления"))
+            else if (text.Contains("Время приготовления"))
             {
                 return "ReadytTmeDish";
             }

@@ -10,13 +10,17 @@ namespace BD.Models
     {
         private bool isTrue = true;
 
-
+        private int idPerson = 0;
         private string namePerson = null;
         private string lastNamePerson = null;
         private string middleNamePerson = null;
         private string positionPerson = null;
         private int agePerson = 0;
-        int idPerson { get; set; }
+        private string login = null;
+        private string password = null;
+        private string privileges = null;
+
+       
         public bool IsTrue { get { return isTrue; } set { isTrue = value; } }
         public string ErrorString { get; set; }
         public string NamePerson
@@ -24,7 +28,7 @@ namespace BD.Models
             get { return namePerson; }
             set
             {
-                if (value.Trim() == null)
+                if (value.Length > 0)
                 {
                     ErrorString += "Введите Имя";
                     isTrue = false;
@@ -41,7 +45,7 @@ namespace BD.Models
             get { return lastNamePerson; }
             set
             {
-                if (value.Trim() == null)
+                if (value.Trim() == null || value.Length == 0)
                 {
                     ErrorString += "Введите Фамилию";
                     isTrue = false;
@@ -58,7 +62,7 @@ namespace BD.Models
             get { return middleNamePerson; }
             set
             {
-                if (value.Trim() == null)
+                if (value.Trim() == null || value.Length == 0)
                 {
                     ErrorString += "Введите Отчество";
                     isTrue = false;
@@ -74,7 +78,7 @@ namespace BD.Models
             get { return positionPerson; }
             set
             {
-                if (value.Trim() == null)
+                if (value.Trim() == null || value.Length == 0)
                 {
                     ErrorString += "Введите должность";
                     isTrue = false;
@@ -85,24 +89,102 @@ namespace BD.Models
                 }
             }
         }
-        public int AgePerson
+        public string AgePerson
         {
 
-            get { return agePerson; }
+            get { return agePerson.ToString(); }
             set
             {
-                if (value <= 0)
+                bool success = int.TryParse(value, out agePerson);
+                if (success)
                 {
-                    ErrorString += "Возраст не может быть меньше или равен 0 ";
+                    if (agePerson <= 0)
+                    {
+                        ErrorString += "Возраст не может быть меньше или равен 0 ";
+                        isTrue = false;
+                    }
+                    
+                }
+                else
+                {
+                    ErrorString += "Неверно введен возраст ";
+                    isTrue = false;
+                }
+            }
+        }
+        public string IdPerson
+        {
+
+            get { return idPerson.ToString(); }
+            set
+            {
+                bool success = int.TryParse(value, out idPerson);
+                if (success)
+                {
+                    if (idPerson <= 0)
+                    {
+                        ErrorString += "Id не может быть меньше или равен 0 ";
+                        isTrue = false;
+                    }
+
+                }
+                else
+                {
+                    ErrorString += "Неверно введен id ";
+                    isTrue = false;
+                }
+            }
+        }
+        public string Login
+        {
+            get { return login; }
+            set
+            {
+                if (value.Trim() == null || value.Length == 0)
+                {
+                    ErrorString += "Введите логин";
                     isTrue = false;
                 }
                 else
                 {
-                    agePerson = value;
-                }
+                    login = value;
 
+                }
             }
         }
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                if (value.Trim() == null || value.Length == 0)
+                {
+                    ErrorString += "Введите пароль";
+                    isTrue = false;
+                }
+                else
+                {
+                    password = value;
 
+                }
+            }
+        }
+        public string Privileges
+        {
+            get { return privileges; }
+            set
+            {
+                if (value.Trim() == null || value.Length == 0)
+                {
+                    ErrorString += "Введите привилегию";
+                    isTrue = false;
+                }
+                else
+                {
+                    privileges = value;
+
+                }
+            }
+        }
     }
 }

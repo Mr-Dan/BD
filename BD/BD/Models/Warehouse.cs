@@ -45,60 +45,75 @@ namespace BD.Models
             }
         }
 
-        public int IdProducts
+        public string IdProducts
         {
 
-            get { return idProducts; }
+            get { return idProducts.ToString(); }
             set
             {
-                if (value <= 0)
+                bool success = int.TryParse(value, out idProducts);
+                if (success)
                 {
-                    ErrorString += "id не может быть меньше или равен 0 ";
-                    isTrue = false;
+                    if (idProducts <= 0)
+                    {
+                        ErrorString += "Id продукта не может быть меньше или равен 0 ";
+                        isTrue = false;
+                    }
+
                 }
                 else
                 {
-                    idProducts = value;
+                    ErrorString += "Неверно введен id продукта ";
+                    isTrue = false;
                 }
-
             }
 
         }
 
-        public int IdProductsWarehouse
-        { 
-            get { return idProducts; }
+        public string IdProductsWarehouse
+        {
+            get { return idProductsWarehouse.ToString(); }
             set
             {
-                if (value <= 0)
+                bool success = int.TryParse(value, out idProductsWarehouse);
+                if (success)
                 {
-                    ErrorString += "id не может быть меньше или равен 0 ";
-                    isTrue = false;
+                    if (idProductsWarehouse <= 0)
+                    {
+                        ErrorString += "Id не может быть меньше или равен 0 ";
+                        isTrue = false;
+                    }
+
                 }
                 else
                 {
-                    idProducts = value;
+                    ErrorString += "Неверно введен id ";
+                    isTrue = false;
                 }
-
             }
 
         }
-        public double CountProduct
+        public string CountProduct
         {
 
-            get { return countProduct; }
+            get { return countProduct.ToString(); }
             set
             {
-                if (value <= 0)
+                bool success = double.TryParse(value, out countProduct);
+                if (success)
                 {
-                    ErrorString += "Колличество товара не может быть меньше или равен 0 ";
-                    isTrue = false;
+                    if (countProduct <= 0)
+                    {
+                        ErrorString += "Колличество продукта не может быть меньше или равен 0 ";
+                        isTrue = false;
+                    }
+
                 }
                 else
                 {
-                    countProduct = value;
+                    ErrorString += "Неверно введено колличество продукта ";
+                    isTrue = false;
                 }
-
             }
 
         }

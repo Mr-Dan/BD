@@ -96,7 +96,6 @@ namespace BD.Forms
             this.dataGridViewWarehouse.Size = new System.Drawing.Size(1015, 266);
             this.dataGridViewWarehouse.TabIndex = 0;
             this.dataGridViewWarehouse.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewWarehouse_CellClick);
-            this.dataGridViewWarehouse.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewWarehouse_CellContentClick);
             // 
             // dataGridViewProducts
             // 

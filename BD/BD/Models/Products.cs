@@ -53,22 +53,27 @@ namespace BD.Models
             }
         }
 
-        public int IdProducts
+        public string IdProducts
         {
 
-            get { return idProducts; }
+            get { return idProducts.ToString(); }
             set
             {
-                if (value <= 0)
+                bool success = int.TryParse(value, out idProducts);
+                if (success)
                 {
-                    ErrorString += "id не может быть меньше или равен 0 ";
-                    isTrue = false;
+                    if (idProducts <= 0)
+                    {
+                        ErrorString += "Id продукта не может быть меньше или равен 0 ";
+                        isTrue = false;
+                    }
+
                 }
                 else
                 {
-                    idProducts = value;
+                    ErrorString += "Неверно введен id продукта ";
+                    isTrue = false;
                 }
-
             }
 
         }

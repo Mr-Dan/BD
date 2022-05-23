@@ -15,7 +15,7 @@ namespace BD.Forms
 {
     public partial class FormWarehouse : Form
     {
-        private MySqlDataAdapter mySqlDataAdapter;
+
         string connStr = "server=localhost;port=368;user=root;database=bd;password=kurkodan;charset=utf8mb4";
         public FormWarehouse()
         {
@@ -24,11 +24,10 @@ namespace BD.Forms
             dateTimePickerShelfLifeProduct.Format = DateTimePickerFormat.Custom;
         }
 
-        private  void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-             UpdateWarehouseAsync();
-             UpdateProductAsync(dataGridViewProducts);
-
+            UpdateWarehouseAsync();
+            UpdateProductAsync(dataGridViewProducts);
         }
 
         private void buttonWarehouse_Click(object sender, EventArgs e)
@@ -46,7 +45,7 @@ namespace BD.Forms
             panelProduct.Visible = false;
         }
 
-        private  void buttonProductDone_Click(object sender, EventArgs e)
+        private void buttonProductDone_Click(object sender, EventArgs e)
         {
             try
             {
@@ -64,12 +63,11 @@ namespace BD.Forms
                         MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO products (NameProduct, UnitProduct) VALUES (@Name, @Unit);", conn);
                         mySqlCommand.Parameters.AddWithValue("@Name", products.NameProduct);
                         mySqlCommand.Parameters.AddWithValue("@Unit", products.UnitProduct);
-                        mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand.CommandText, conn);
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
 
                         panelProduct.Visible = false;
-                         UpdateProductAsync(dataGridViewProducts);
+                        UpdateProductAsync(dataGridViewProducts);
                     }
                 }
                 else MessageBox.Show(products.ErrorString);
@@ -88,13 +86,13 @@ namespace BD.Forms
             dataGridViewProductsGet.Visible = false;
         }
 
-        private  void buttonWarehouseDone_Click(object sender, EventArgs e)
+        private void buttonWarehouseDone_Click(object sender, EventArgs e)
         {
             try
             {
                 Warehouse warehouse = new Warehouse();
-                warehouse.IdProducts = Convert.ToInt32(textBoxIdProducts.Text);
-                warehouse.CountProduct = Convert.ToDouble(textBoxCountProduct.Text);
+                warehouse.IdProducts = textBoxIdProducts.Text;
+                warehouse.CountProduct = textBoxCountProduct.Text;
                 warehouse.ShelfLifeProduct = dateTimePickerShelfLifeProduct.Text;
                 if (warehouse.Istrue)
                 {
@@ -106,7 +104,6 @@ namespace BD.Forms
                         mySqlCommand.Parameters.AddWithValue("@IdProducts", warehouse.IdProducts);
                         mySqlCommand.Parameters.AddWithValue("@CountProduct", warehouse.CountProduct);
                         mySqlCommand.Parameters.AddWithValue("@ShelfLifeProduct", warehouse.ShelfLifeProduct);
-                        mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand.CommandText, conn);
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
                     }
@@ -116,15 +113,10 @@ namespace BD.Forms
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message);
-              
+
             }
             panelWarehouse.Visible = false;
-             UpdateWarehouseAsync();
-        }
-
-        private void dataGridViewWarehouse_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            UpdateWarehouseAsync();
         }
 
         private async void UpdateWarehouseAsync()
@@ -191,7 +183,7 @@ namespace BD.Forms
                 MessageBox.Show(ex.Message);
             }
         }
-        private  void dataGridViewWarehouse_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewWarehouse_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //update
             if (e.ColumnIndex == 6)
@@ -199,9 +191,9 @@ namespace BD.Forms
                 try
                 {
                     Warehouse warehouse = new Warehouse();
-                    warehouse.IdProductsWarehouse = Convert.ToInt32(dataGridViewWarehouse.Rows[e.RowIndex].Cells[0].Value);
-                    warehouse.IdProducts = Convert.ToInt32(dataGridViewWarehouse.Rows[e.RowIndex].Cells[1].Value);
-                    warehouse.CountProduct = Convert.ToDouble(dataGridViewWarehouse.Rows[e.RowIndex].Cells[2].Value);
+                    warehouse.IdProductsWarehouse = dataGridViewWarehouse.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    warehouse.IdProducts = dataGridViewWarehouse.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    warehouse.CountProduct = dataGridViewWarehouse.Rows[e.RowIndex].Cells[2].Value.ToString();
                     warehouse.ShelfLifeProduct = dataGridViewWarehouse.Rows[e.RowIndex].Cells[3].Value.ToString();
                     if (warehouse.Istrue)
                     {
@@ -211,13 +203,13 @@ namespace BD.Forms
                         if (conn.State == ConnectionState.Open)
                         {
                             MySqlCommand mySqlCommand = new MySqlCommand("UPDATE warehouse SET CountProduct=@CountProduct,ShelfLifeProduct=@ShelfLifeProduct WHERE IdProductsWarehouse = @IdProductsWarehouse", conn);
-                            mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", Convert.ToInt32(dataGridViewWarehouse.Rows[e.RowIndex].Cells[0].Value));
+                            mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", warehouse.IdProductsWarehouse);
                             mySqlCommand.Parameters.AddWithValue("@CountProduct", warehouse.CountProduct);
                             mySqlCommand.Parameters.AddWithValue("@ShelfLifeProduct", warehouse.ShelfLifeProduct);
                             mySqlCommand.ExecuteNonQuery();
                             conn.Close();
                         }
-                         UpdateWarehouseAsync();
+                        UpdateWarehouseAsync();
                     }
                     else MessageBox.Show(warehouse.ErrorString);
                 }
@@ -229,92 +221,108 @@ namespace BD.Forms
             //delete
             else if (e.ColumnIndex == 7)
             {
+                Warehouse warehouse = new Warehouse();
+                warehouse.IdProductsWarehouse = dataGridViewWarehouse.Rows[e.RowIndex].Cells[0].Value.ToString();
 
-                try
+                if (warehouse.Istrue)
                 {
-                    MySqlConnection conn = new MySqlConnection(connStr);
-                    conn.Open();
-
-                    if (conn.State == ConnectionState.Open)
+                    try
                     {
-                        MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM warehouse WHERE IdProductsWarehouse = @IdProductsWarehouse", conn);
-                        mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", Convert.ToInt32(dataGridViewWarehouse.Rows[e.RowIndex].Cells[0].Value));
-                        mySqlCommand.ExecuteNonQuery();
-                        conn.Close();
+                        MySqlConnection conn = new MySqlConnection(connStr);
+                        conn.Open();
 
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM warehouse WHERE IdProductsWarehouse = @IdProductsWarehouse", conn);
+                            mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", warehouse.IdProductsWarehouse);
+                            mySqlCommand.ExecuteNonQuery();
+                            conn.Close();
+
+                        }
+                        UpdateWarehouseAsync();
                     }
-                     UpdateWarehouseAsync();
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (MySqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                else MessageBox.Show(warehouse.ErrorString);
             }
 
         }
 
-        private  void dataGridViewProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewProducts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //update
             if (e.ColumnIndex == 3)
             {
-                try
+                Products products = new Products();
+                products.IdProducts = dataGridViewProducts.Rows[e.RowIndex].Cells[0].Value.ToString();
+                products.NameProduct = dataGridViewProducts.Rows[e.RowIndex].Cells[1].Value.ToString();
+                products.UnitProduct = dataGridViewProducts.Rows[e.RowIndex].Cells[2].Value.ToString();
+                if (products.Istrue)
                 {
-                    Products products = new Products();
-                    products.IdProducts = Convert.ToInt32(dataGridViewProducts.Rows[e.RowIndex].Cells[0].Value);
-                    products.NameProduct = dataGridViewProducts.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    products.UnitProduct = dataGridViewProducts.Rows[e.RowIndex].Cells[2].Value.ToString();
-                    MySqlConnection conn = new MySqlConnection(connStr);
-                    conn.Open();
-
-                    if (conn.State == ConnectionState.Open)
+                    try
                     {
-                        MySqlCommand mySqlCommand = new MySqlCommand("UPDATE products SET NameProduct=@NameProduct,UnitProduct=@UnitProduct WHERE IdProducts = @IdProducts", conn);
-                        mySqlCommand.Parameters.AddWithValue("@IdProducts", products.IdProducts);
-                        mySqlCommand.Parameters.AddWithValue("@NameProduct", products.NameProduct);
-                        mySqlCommand.Parameters.AddWithValue("@UnitProduct", products.UnitProduct);
-                        mySqlCommand.ExecuteNonQuery();
-                        conn.Close();
+
+                        MySqlConnection conn = new MySqlConnection(connStr);
+                        conn.Open();
+
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            MySqlCommand mySqlCommand = new MySqlCommand("UPDATE products SET NameProduct=@NameProduct,UnitProduct=@UnitProduct WHERE IdProducts = @IdProducts", conn);
+                            mySqlCommand.Parameters.AddWithValue("@IdProducts", products.IdProducts);
+                            mySqlCommand.Parameters.AddWithValue("@NameProduct", products.NameProduct);
+                            mySqlCommand.Parameters.AddWithValue("@UnitProduct", products.UnitProduct);
+                            mySqlCommand.ExecuteNonQuery();
+                            conn.Close();
+                        }
+                        UpdateProductAsync(dataGridViewProducts);
                     }
-                     UpdateProductAsync(dataGridViewProducts);
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (MySqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                else { MessageBox.Show(products.ErrorString); }
             }
             //delete
             else if (e.ColumnIndex == 4)
             {
-
-                try
+                Products products = new Products();
+                products.IdProducts = dataGridViewProducts.Rows[e.RowIndex].Cells[0].Value.ToString();
+                if (products.Istrue)
                 {
-                    MySqlConnection conn = new MySqlConnection(connStr);
-                    conn.Open();
-
-                    if (conn.State == ConnectionState.Open)
+                    try
                     {
+                        MySqlConnection conn = new MySqlConnection(connStr);
+                        conn.Open();
 
-                        MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM products WHERE IdProducts = @IdProducts", conn);
-                        mySqlCommand.Parameters.AddWithValue("@IdProducts", Convert.ToInt32(dataGridViewProducts.Rows[e.RowIndex].Cells[0].Value));
-                        mySqlCommand.ExecuteNonQuery();
-                        conn.Close();
+                        if (conn.State == ConnectionState.Open)
+                        {
 
+                            MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM products WHERE IdProducts = @IdProducts", conn);
+                            mySqlCommand.Parameters.AddWithValue("@IdProducts", products.IdProducts);
+                            mySqlCommand.ExecuteNonQuery();
+                            conn.Close();
+
+                        }
+                        UpdateProductAsync(dataGridViewProducts);
                     }
-                     UpdateProductAsync(dataGridViewProducts);
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (MySqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                else { MessageBox.Show(products.ErrorString); }
             }
 
         }
 
-        private  void buttonGetIdProduct_Click(object sender, EventArgs e)
+        private void buttonGetIdProduct_Click(object sender, EventArgs e)
         {
             dataGridViewProductsGet.Visible = true;
-             UpdateProductAsync(dataGridViewProductsGet);
+            UpdateProductAsync(dataGridViewProductsGet);
         }
 
         private void dataGridViewProductsGet_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -325,10 +333,10 @@ namespace BD.Forms
 
         }
 
-        private  void textBoxIdProducts_Click(object sender, EventArgs e)
+        private void textBoxIdProducts_Click(object sender, EventArgs e)
         {
             dataGridViewProductsGet.Visible = true;
-             UpdateProductAsync(dataGridViewProductsGet);
+            UpdateProductAsync(dataGridViewProductsGet);
         }
     }
 }

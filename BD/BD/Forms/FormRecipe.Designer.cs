@@ -31,11 +31,6 @@ namespace BD.Forms
         {
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridViewRecipe = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelDish = new System.Windows.Forms.Panel();
             this.textBoxTypeDish = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -56,6 +51,7 @@ namespace BD.Forms
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.buttonRecipeDone = new System.Windows.Forms.Button();
@@ -64,6 +60,7 @@ namespace BD.Forms
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelProduct = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonProductClose = new System.Windows.Forms.Button();
             this.panelRecipe = new System.Windows.Forms.Panel();
             this.buttonRecipeClose = new System.Windows.Forms.Button();
@@ -77,12 +74,18 @@ namespace BD.Forms
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxTypeDish = new System.Windows.Forms.ComboBox();
             this.buttonCost = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonSortDish = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecipe)).BeginInit();
             this.panelDish.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDish)).BeginInit();
@@ -110,39 +113,16 @@ namespace BD.Forms
             this.Column3,
             this.Column1,
             this.Column2,
+            this.Column18,
             this.Column6,
+            this.Column19,
             this.Column7});
             this.dataGridViewRecipe.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewRecipe.Name = "dataGridViewRecipe";
-            this.dataGridViewRecipe.Size = new System.Drawing.Size(543, 247);
+            this.dataGridViewRecipe.Size = new System.Drawing.Size(615, 247);
             this.dataGridViewRecipe.TabIndex = 1;
             this.dataGridViewRecipe.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRecipe_CellClick);
             this.dataGridViewRecipe.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_DefaultValuesNeeded);
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Id блюда";
-            this.Column3.Name = "Column3";
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Id продукта";
-            this.Column2.Name = "Column2";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Колличество";
-            this.Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Delete";
-            this.Column7.Name = "Column7";
             // 
             // panelDish
             // 
@@ -278,6 +258,7 @@ namespace BD.Forms
             this.Column14,
             this.Column15,
             this.Column16,
+            this.Column17,
             this.Column4,
             this.Column5});
             this.dataGridViewDish.Location = new System.Drawing.Point(12, 29);
@@ -317,6 +298,11 @@ namespace BD.Forms
             // 
             this.Column16.HeaderText = "Тип блюда";
             this.Column16.Name = "Column16";
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "В наличии";
+            this.Column17.Name = "Column17";
             // 
             // Column4
             // 
@@ -390,6 +376,14 @@ namespace BD.Forms
             this.panelProduct.TabIndex = 9;
             this.panelProduct.Visible = false;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(3, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(373, 20);
+            this.textBox1.TabIndex = 10;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // buttonProductClose
             // 
             this.buttonProductClose.Location = new System.Drawing.Point(404, 0);
@@ -407,13 +401,13 @@ namespace BD.Forms
             this.panelRecipe.Controls.Add(this.buttonRecipeDone);
             this.panelRecipe.Location = new System.Drawing.Point(12, 337);
             this.panelRecipe.Name = "panelRecipe";
-            this.panelRecipe.Size = new System.Drawing.Size(548, 287);
+            this.panelRecipe.Size = new System.Drawing.Size(621, 287);
             this.panelRecipe.TabIndex = 10;
             this.panelRecipe.Visible = false;
             // 
             // buttonRecipeClose
             // 
-            this.buttonRecipeClose.Location = new System.Drawing.Point(513, 3);
+            this.buttonRecipeClose.Location = new System.Drawing.Point(586, 3);
             this.buttonRecipeClose.Name = "buttonRecipeClose";
             this.buttonRecipeClose.Size = new System.Drawing.Size(32, 23);
             this.buttonRecipeClose.TabIndex = 9;
@@ -469,7 +463,7 @@ namespace BD.Forms
             this.panelCost.Controls.Add(this.buttonCostUp);
             this.panelCost.Controls.Add(this.textBoxPercentage);
             this.panelCost.Controls.Add(this.buttonCostDown);
-            this.panelCost.Location = new System.Drawing.Point(455, 327);
+            this.panelCost.Location = new System.Drawing.Point(681, 320);
             this.panelCost.Name = "panelCost";
             this.panelCost.Size = new System.Drawing.Size(307, 100);
             this.panelCost.TabIndex = 15;
@@ -513,21 +507,13 @@ namespace BD.Forms
             // 
             // buttonCost
             // 
-            this.buttonCost.Location = new System.Drawing.Point(455, 308);
+            this.buttonCost.Location = new System.Drawing.Point(681, 299);
             this.buttonCost.Name = "buttonCost";
             this.buttonCost.Size = new System.Drawing.Size(191, 23);
             this.buttonCost.TabIndex = 16;
             this.buttonCost.Text = "Повысить/понизить цену";
             this.buttonCost.UseVisualStyleBackColor = true;
             this.buttonCost.Click += new System.EventHandler(this.buttonCost_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(3, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(373, 20);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // buttonSortDish
             // 
@@ -591,6 +577,41 @@ namespace BD.Forms
             this.comboBox4.Size = new System.Drawing.Size(121, 21);
             this.comboBox4.TabIndex = 25;
             // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Id блюда";
+            this.Column3.Name = "Column3";
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Id";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Id продукта";
+            this.Column2.Name = "Column2";
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "Имя продукта";
+            this.Column18.Name = "Column18";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Колличество";
+            this.Column6.Name = "Column6";
+            // 
+            // Column19
+            // 
+            this.Column19.HeaderText = "ед.";
+            this.Column19.Name = "Column19";
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Delete";
+            this.Column7.Name = "Column7";
+            // 
             // FormRecipe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -639,11 +660,6 @@ namespace BD.Forms
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridViewDish;
         private System.Windows.Forms.Button buttonRecipeDone;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewButtonColumn Column7;
         private System.Windows.Forms.DataGridView dataGridViewProduct;
         private System.Windows.Forms.Panel panelProduct;
         private System.Windows.Forms.Label label4;
@@ -656,14 +672,6 @@ namespace BD.Forms
         private System.Windows.Forms.Button buttonRecipeClose;
         private System.Windows.Forms.Button buttonDishClose;
         private System.Windows.Forms.Button buttonDishAdd;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
-        private System.Windows.Forms.DataGridViewButtonColumn Column4;
-        private System.Windows.Forms.DataGridViewButtonColumn Column5;
         private System.Windows.Forms.TextBox textBoxTypeDish;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonCostUp;
@@ -681,5 +689,21 @@ namespace BD.Forms
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
+        private System.Windows.Forms.DataGridViewButtonColumn Column4;
+        private System.Windows.Forms.DataGridViewButtonColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column19;
+        private System.Windows.Forms.DataGridViewButtonColumn Column7;
     }
 }

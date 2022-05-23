@@ -21,7 +21,7 @@ namespace BD.Forms
             InitializeComponent();
         }
 
-        private async void buttonSQL_Click(object sender, EventArgs e)
+        private  void buttonSQL_Click(object sender, EventArgs e)
         {
             try
             {

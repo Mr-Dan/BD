@@ -30,14 +30,6 @@ namespace BD.Forms
         private void InitializeComponent()
         {
             this.dataGridViewPersons = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonPersons = new System.Windows.Forms.Button();
             this.panelPersons = new System.Windows.Forms.Panel();
@@ -53,6 +45,23 @@ namespace BD.Forms
             this.textBoxPersonMiddleName = new System.Windows.Forms.TextBox();
             this.textBoxPersonLastName = new System.Windows.Forms.TextBox();
             this.textBoxPersonName = new System.Windows.Forms.TextBox();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBoxPrivileges = new System.Windows.Forms.TextBox();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.textBoxLogin = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPersons)).BeginInit();
             this.panelPersons.SuspendLayout();
             this.SuspendLayout();
@@ -69,58 +78,17 @@ namespace BD.Forms
             this.Column6,
             this.Column7,
             this.Column8,
+            this.Column9,
+            this.Column10,
+            this.Column11,
             this.Column1,
             this.Column2});
             this.dataGridViewPersons.Location = new System.Drawing.Point(13, 13);
             this.dataGridViewPersons.Name = "dataGridViewPersons";
             this.dataGridViewPersons.RowHeadersVisible = false;
-            this.dataGridViewPersons.Size = new System.Drawing.Size(804, 310);
+            this.dataGridViewPersons.Size = new System.Drawing.Size(1113, 310);
             this.dataGridViewPersons.TabIndex = 0;
             this.dataGridViewPersons.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPersons_CellClick);
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Id";
-            this.Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Имя";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Фамилия";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Отчество";
-            this.Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Должность";
-            this.Column7.Name = "Column7";
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Возраст";
-            this.Column8.Name = "Column8";
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Update";
-            this.Column1.Name = "Column1";
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "delete";
-            this.Column2.Name = "Column2";
-            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // button1
             // 
@@ -134,7 +102,7 @@ namespace BD.Forms
             // 
             // buttonPersons
             // 
-            this.buttonPersons.Location = new System.Drawing.Point(678, 329);
+            this.buttonPersons.Location = new System.Drawing.Point(987, 329);
             this.buttonPersons.Name = "buttonPersons";
             this.buttonPersons.Size = new System.Drawing.Size(139, 23);
             this.buttonPersons.TabIndex = 3;
@@ -145,6 +113,12 @@ namespace BD.Forms
             // panelPersons
             // 
             this.panelPersons.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panelPersons.Controls.Add(this.label6);
+            this.panelPersons.Controls.Add(this.label7);
+            this.panelPersons.Controls.Add(this.label8);
+            this.panelPersons.Controls.Add(this.textBoxPrivileges);
+            this.panelPersons.Controls.Add(this.textBoxPassword);
+            this.panelPersons.Controls.Add(this.textBoxLogin);
             this.panelPersons.Controls.Add(this.buttonPersonDone);
             this.panelPersons.Controls.Add(this.buttonPersonClose);
             this.panelPersons.Controls.Add(this.label5);
@@ -157,15 +131,15 @@ namespace BD.Forms
             this.panelPersons.Controls.Add(this.textBoxPersonMiddleName);
             this.panelPersons.Controls.Add(this.textBoxPersonLastName);
             this.panelPersons.Controls.Add(this.textBoxPersonName);
-            this.panelPersons.Location = new System.Drawing.Point(386, 330);
+            this.panelPersons.Location = new System.Drawing.Point(460, 330);
             this.panelPersons.Name = "panelPersons";
-            this.panelPersons.Size = new System.Drawing.Size(286, 155);
+            this.panelPersons.Size = new System.Drawing.Size(521, 155);
             this.panelPersons.TabIndex = 4;
             this.panelPersons.Visible = false;
             // 
             // buttonPersonDone
             // 
-            this.buttonPersonDone.Location = new System.Drawing.Point(202, 122);
+            this.buttonPersonDone.Location = new System.Drawing.Point(416, 120);
             this.buttonPersonDone.Name = "buttonPersonDone";
             this.buttonPersonDone.Size = new System.Drawing.Size(75, 23);
             this.buttonPersonDone.TabIndex = 11;
@@ -175,7 +149,7 @@ namespace BD.Forms
             // 
             // buttonPersonClose
             // 
-            this.buttonPersonClose.Location = new System.Drawing.Point(252, 0);
+            this.buttonPersonClose.Location = new System.Drawing.Point(443, 7);
             this.buttonPersonClose.Name = "buttonPersonClose";
             this.buttonPersonClose.Size = new System.Drawing.Size(25, 25);
             this.buttonPersonClose.TabIndex = 10;
@@ -232,42 +206,149 @@ namespace BD.Forms
             // 
             this.textBoxPersonAge.Location = new System.Drawing.Point(74, 125);
             this.textBoxPersonAge.Name = "textBoxPersonAge";
-            this.textBoxPersonAge.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPersonAge.Size = new System.Drawing.Size(126, 20);
             this.textBoxPersonAge.TabIndex = 4;
             // 
             // textBoxPersonPosition
             // 
             this.textBoxPersonPosition.Location = new System.Drawing.Point(74, 99);
             this.textBoxPersonPosition.Name = "textBoxPersonPosition";
-            this.textBoxPersonPosition.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPersonPosition.Size = new System.Drawing.Size(126, 20);
             this.textBoxPersonPosition.TabIndex = 3;
             // 
             // textBoxPersonMiddleName
             // 
             this.textBoxPersonMiddleName.Location = new System.Drawing.Point(74, 69);
             this.textBoxPersonMiddleName.Name = "textBoxPersonMiddleName";
-            this.textBoxPersonMiddleName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPersonMiddleName.Size = new System.Drawing.Size(126, 20);
             this.textBoxPersonMiddleName.TabIndex = 2;
             // 
             // textBoxPersonLastName
             // 
             this.textBoxPersonLastName.Location = new System.Drawing.Point(74, 42);
             this.textBoxPersonLastName.Name = "textBoxPersonLastName";
-            this.textBoxPersonLastName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPersonLastName.Size = new System.Drawing.Size(126, 20);
             this.textBoxPersonLastName.TabIndex = 1;
             // 
             // textBoxPersonName
             // 
             this.textBoxPersonName.Location = new System.Drawing.Point(74, 12);
             this.textBoxPersonName.Name = "textBoxPersonName";
-            this.textBoxPersonName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPersonName.Size = new System.Drawing.Size(126, 20);
             this.textBoxPersonName.TabIndex = 0;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Id";
+            this.Column3.Name = "Column3";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Имя";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Фамилия";
+            this.Column5.Name = "Column5";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Отчество";
+            this.Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Должность";
+            this.Column7.Name = "Column7";
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Возраст";
+            this.Column8.Name = "Column8";
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Логин";
+            this.Column9.Name = "Column9";
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Пароль";
+            this.Column10.Name = "Column10";
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Права";
+            this.Column11.Name = "Column11";
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Update";
+            this.Column1.Name = "Column1";
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "delete";
+            this.Column2.Name = "Column2";
+            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(214, 69);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Привилегия";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(212, 42);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Пароль";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(212, 13);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(38, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Логин";
+            // 
+            // textBoxPrivileges
+            // 
+            this.textBoxPrivileges.Location = new System.Drawing.Point(283, 69);
+            this.textBoxPrivileges.Name = "textBoxPrivileges";
+            this.textBoxPrivileges.Size = new System.Drawing.Size(126, 20);
+            this.textBoxPrivileges.TabIndex = 14;
+            // 
+            // textBoxPassword
+            // 
+            this.textBoxPassword.Location = new System.Drawing.Point(283, 39);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.Size = new System.Drawing.Size(126, 20);
+            this.textBoxPassword.TabIndex = 13;
+            // 
+            // textBoxLogin
+            // 
+            this.textBoxLogin.Location = new System.Drawing.Point(283, 9);
+            this.textBoxLogin.Name = "textBoxLogin";
+            this.textBoxLogin.Size = new System.Drawing.Size(126, 20);
+            this.textBoxLogin.TabIndex = 12;
             // 
             // FormPersons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(822, 493);
+            this.ClientSize = new System.Drawing.Size(1138, 493);
             this.Controls.Add(this.panelPersons);
             this.Controls.Add(this.buttonPersons);
             this.Controls.Add(this.button1);
@@ -305,7 +386,16 @@ namespace BD.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewButtonColumn Column1;
         private System.Windows.Forms.DataGridViewButtonColumn Column2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBoxPrivileges;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.TextBox textBoxLogin;
     }
 }

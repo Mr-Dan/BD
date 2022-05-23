@@ -39,15 +39,18 @@ namespace BD.Forms
             int column = 0;
             for (int i = 0; i < dishes.Count; i++)
             {
-                panelDishClasses.Add(new PanelDishClass(dishes[i], panelDishs, row, column) { });
-                panelDishs.Controls.Add(panelDishClasses[panelDishClasses.Count - 1].PanelDish);
-                panelDishClasses[panelDishClasses.Count - 1].ButtonDishOrder.Click += new EventHandler(ButtonDishOrder_Click);
-                column++;
-              
-                if (column == 3)
+                if (dishes[i].InStock.Contains("1"))
                 {
-                    column = 0;
-                    row++; ;
+                    panelDishClasses.Add(new PanelDishClass(dishes[i], panelDishs, row, column) { });
+                    panelDishs.Controls.Add(panelDishClasses[panelDishClasses.Count - 1].PanelDish);
+                    panelDishClasses[panelDishClasses.Count - 1].ButtonDishOrder.Click += new EventHandler(ButtonDishOrder_Click);
+                    column++;
+
+                    if (column == 3)
+                    {
+                        column = 0;
+                        row++; 
+                    }
                 }
             }
         }
@@ -58,7 +61,7 @@ namespace BD.Forms
             Button = (Button)sender;
 
             string idDish = Regex.Match(Button.Name, @"ButtonDishOrder_(\w)+").Value.Replace("ButtonDishOrder_", "");
-            int index = dishes.FindIndex(f => f.IdDish == Convert.ToInt32(idDish));
+            int index = dishes.FindIndex(f => f.IdDish == idDish);
             if (index > -1)
             {
                 dataGridViewOrder.Rows.Add(
@@ -71,7 +74,7 @@ namespace BD.Forms
 
                     }
                     );
-                allCost += dishes[index].CostDish;
+                allCost += Convert.ToDouble( dishes[index].CostDish);
                 cart.Add(new Dish { IdDish = dishes[index].IdDish, NameDish = dishes[index].NameDish, CostDish = dishes[index].CostDish, recipes = dishes[index].recipes });
             }
         }
@@ -92,13 +95,14 @@ namespace BD.Forms
                     {
                         dishes.Add(new Dish
                         {
-                            IdDish = Convert.ToInt32(reader[0]),
+                            IdDish = reader[0].ToString(),
                             NameDish = reader[1].ToString(),
                             ReadytTmeDish = reader[2].ToString(),
-                            CostDish = Convert.ToDouble(reader[3]),
+                            CostDish = reader[3].ToString(),
                             ImageDish = reader[4].ToString(),
-                            recipes = GetRecipes(Convert.ToInt32(reader[0]))
-                        });
+                            recipes = GetRecipes(Convert.ToInt32(reader[0])),
+                            InStock = reader[5].ToString()
+                        }); 
                     }
                     reader.Close();
                     conn.Close();
@@ -133,7 +137,7 @@ namespace BD.Forms
                     if (conn.State == ConnectionState.Open)
                     {
                         MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO orders(Total,DataTimeOrder) VALUES(@Total,@DataTimeOrder)", conn);
-                        mySqlCommand.Parameters.AddWithValue("@Total", Convert.ToDouble(allCost));
+                        mySqlCommand.Parameters.AddWithValue("@Total",allCost);
                         mySqlCommand.Parameters.AddWithValue("@DataTimeOrder", DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss"));
                         mySqlCommand.ExecuteNonQuery();
                         int id = Convert.ToInt32(mySqlCommand.LastInsertedId);
@@ -156,8 +160,9 @@ namespace BD.Forms
 
                                 int idwarehouse = 0;
                                 double CountProductWerehouse = 0;
-                                (idwarehouse, CountProductWerehouse) = (GetWarehouseInfo(cart[i].recipes[j].IdProducts).Item1, GetWarehouseInfo(cart[i].recipes[j].IdProducts).Item2);
-                                CountProductWerehouse -= cart[i].recipes[j].Needed_amount;
+                                Tuple<int, double> tuple = GetWarehouseInfo(Convert.ToInt32(cart[i].recipes[j].IdProducts));
+                                (idwarehouse, CountProductWerehouse) = (tuple.Item1, tuple.Item2);
+                                CountProductWerehouse -=Convert.ToDouble(cart[i].recipes[j].Needed_amount);
                                 do
                                 {
                                     if (CountProductWerehouse < 0)
@@ -166,16 +171,26 @@ namespace BD.Forms
                                         mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", idwarehouse);
                                         mySqlCommand.ExecuteNonQuery();
                                         double remainder = CountProductWerehouse;
-                                        (idwarehouse, CountProductWerehouse) = (GetWarehouseInfo(cart[i].recipes[j].IdProducts).Item1, GetWarehouseInfo(cart[i].recipes[j].IdProducts).Item2);
+                                        tuple = GetWarehouseInfo(Convert.ToInt32(cart[i].recipes[j].IdProducts));
+                                        (idwarehouse, CountProductWerehouse) = (tuple.Item1, tuple.Item2);
                                         CountProductWerehouse += remainder;
                                     }
 
                                 } while (CountProductWerehouse < 0);
 
-                                mySqlCommand = new MySqlCommand("UPDATE warehouse SET CountProduct=@CountProduct WHERE IdProductsWarehouse=@IdProductsWarehouse", conn);
-                                mySqlCommand.Parameters.AddWithValue("@CountProduct", CountProductWerehouse);
-                                mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", idwarehouse);
-                                mySqlCommand.ExecuteNonQuery();
+                                if (CountProductWerehouse!=0) 
+                                {
+                                    mySqlCommand = new MySqlCommand("UPDATE warehouse SET CountProduct=@CountProduct WHERE IdProductsWarehouse=@IdProductsWarehouse", conn);
+                                    mySqlCommand.Parameters.AddWithValue("@CountProduct", CountProductWerehouse);
+                                    mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", idwarehouse);
+                                    mySqlCommand.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    mySqlCommand = new MySqlCommand("DELETE FROM warehouse WHERE IdProductsWarehouse=@IdProductsWarehouse", conn);
+                                    mySqlCommand.Parameters.AddWithValue("@IdProductsWarehouse", idwarehouse);
+                                    mySqlCommand.ExecuteNonQuery();
+                                }
                             }
 
                         }
@@ -209,7 +224,7 @@ namespace BD.Forms
                 conn.Open();
                 if (conn.State == ConnectionState.Open)
                 {
-                    MySqlCommand mySqlCommand = new MySqlCommand($"SELECT IdProductsWarehouse,CountProduct FROM warehouse WHERE ShelfLifeProduct = (SELECT MIN(ShelfLifeProduct) AS '{DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss")}'  FROM warehouse WHERE IdProducts =@IdProducts)", conn);
+                    MySqlCommand mySqlCommand = new MySqlCommand($"SELECT IdProductsWarehouse,CountProduct FROM warehouse WHERE ShelfLifeProduct = (SELECT MIN(ShelfLifeProduct) AS '{DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss")}'  FROM warehouse WHERE IdProducts =@IdProducts) AND IdProducts=@IdProducts", conn);
                     mySqlCommand.Parameters.AddWithValue("@IdProducts", IdProducts);
                     MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
                     int idwarehouse = 0;
@@ -248,10 +263,10 @@ namespace BD.Forms
                     {
                         recipes.Add(new Recipe
                         {
-                            Idrecipe = Convert.ToInt32(mySqlDataReader[0]),
-                            IdProducts = Convert.ToInt32(mySqlDataReader[1]),
-                            IdDish = Convert.ToInt32(mySqlDataReader[2]),
-                            Needed_amount = Convert.ToDouble(mySqlDataReader[3]),
+                            Idrecipe = mySqlDataReader[0].ToString(),
+                            IdProducts =mySqlDataReader[1].ToString(),
+                            IdDish = mySqlDataReader[2].ToString(),
+                            Needed_amount = mySqlDataReader[3].ToString(),
                             NameProduct = mySqlDataReader[4].ToString()
                         });
                     }
@@ -274,14 +289,14 @@ namespace BD.Forms
             {
                 for (int j = 0; j < cart[i].recipes.Count; j++)
                 {
-                    int index = ingredients.FindIndex(f => f.IdProducts == cart[i].recipes[j].IdProducts);
+                    int index = ingredients.FindIndex(f => f.IdProducts ==Convert.ToInt32( cart[i].recipes[j].IdProducts));
                     if (index > -1)
                     {
-                        ingredients[index].Needed_amount += cart[i].recipes[j].Needed_amount;
+                        ingredients[index].Needed_amount += Convert.ToDouble( cart[i].recipes[j].Needed_amount);
                     }
                     else
                     {
-                        ingredients.Add(new Ingredient { IdProducts = cart[i].recipes[j].IdProducts, Needed_amount = cart[i].recipes[j].Needed_amount, NameProduct = cart[i].recipes[j].NameProduct });
+                        ingredients.Add(new Ingredient { IdProducts = Convert.ToInt32(cart[i].recipes[j].IdProducts), Needed_amount = Convert.ToDouble(cart[i].recipes[j].Needed_amount), NameProduct = cart[i].recipes[j].NameProduct });
                     }
                 }
             }

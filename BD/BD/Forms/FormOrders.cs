@@ -108,7 +108,7 @@ namespace BD.Forms
                     if (conn.State == ConnectionState.Open)
                     {
                         MySqlCommand mySqlCommand = new MySqlCommand("DELETE FROM orders WHERE IdOrder = @IdOrder", conn);
-                        mySqlCommand.Parameters.AddWithValue("@IdOrder", Convert.ToInt32(dataGridViewOrders.Rows[e.RowIndex].Cells[0].Value));
+                        mySqlCommand.Parameters.AddWithValue("@IdOrder", dataGridViewOrders.Rows[e.RowIndex].Cells[0].Value);
                         mySqlCommand.ExecuteNonQuery();
                         conn.Close();
                          UpdateOrders();
