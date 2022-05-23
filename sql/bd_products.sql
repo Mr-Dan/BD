@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `bd` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bd`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
 -- Host: localhost    Database: bd
@@ -36,7 +38,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Морковь','кг'),(2,'Капуста','кг'),(3,'Кортошка','кг'),(4,'Лук','кг'),(5,'Чеснок','кг'),(6,'Молоко','л');
+INSERT INTO `products` VALUES (1,'Морковь','кг'),(2,'Капуста','кг'),(3,'Картошка','кг'),(4,'Лук','кг'),(5,'Чеснок','кг'),(6,'Молоко','л');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -68,4 +70,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-20  9:37:29
+-- Dump completed on 2022-05-24  1:01:42

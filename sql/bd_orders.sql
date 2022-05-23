@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `bd` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bd`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
 -- Host: localhost    Database: bd
@@ -28,7 +30,7 @@ CREATE TABLE `orders` (
   `Total` double NOT NULL,
   `DataTimeOrder` varchar(45) NOT NULL,
   PRIMARY KEY (`IdOrder`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +39,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (29,'Готово',400,'05-16-2022 18:15:03'),(30,'В процессе',200,'05-20-2022 09:24:22'),(31,'В процессе',100,'05-20-2022 09:24:24'),(32,'В процессе',75,'05-20-2022 09:24:30'),(33,'В процессе',160,'05-20-2022 09:24:34');
+INSERT INTO `orders` VALUES (29,'Готово',400,'05-16-2022 18:15:03'),(30,'В процессе',200,'05-20-2022 09:24:22'),(31,'В процессе',100,'05-20-2022 09:24:24'),(32,'В процессе',75,'05-20-2022 09:24:30'),(33,'В процессе',160,'05-20-2022 09:24:34'),(34,'В процессе',200,'05-22-2022 17:14:59'),(35,'В процессе',200,'05-22-2022 17:15:24'),(36,'В процессе',200,'05-22-2022 17:16:14'),(37,'В процессе',100,'05-22-2022 17:16:31'),(38,'В процессе',200,'05-22-2022 17:17:48'),(39,'В процессе',100,'05-22-2022 17:20:08'),(40,'В процессе',100,'05-22-2022 17:22:43'),(41,'В процессе',100,'05-22-2022 17:25:48'),(42,'В процессе',100,'05-22-2022 17:26:04'),(43,'В процессе',100,'05-22-2022 17:26:09'),(44,'В процессе',100,'05-22-2022 17:31:13'),(45,'Готово',100,'05-22-2022 17:39:01');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -52,6 +54,7 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `bd`.`orders_BEFORE_DELETE` BEFORE DELETE ON `orders` FOR EACH ROW
 BEGIN
  Delete from orders_dish where orders_dish.IdOrder = OLD.IdOrder;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -68,4 +71,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-20  9:37:30
+-- Dump completed on 2022-05-24  1:01:43

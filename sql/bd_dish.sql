@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `bd` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bd`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
 -- Host: localhost    Database: bd
@@ -29,6 +31,7 @@ CREATE TABLE `dish` (
   `CostDish` double NOT NULL,
   `ImageDish` varchar(45) DEFAULT NULL,
   `TypeDish` varchar(45) NOT NULL,
+  `InStock` bit(1) NOT NULL,
   PRIMARY KEY (`IdDish`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +42,7 @@ CREATE TABLE `dish` (
 
 LOCK TABLES `dish` WRITE;
 /*!40000 ALTER TABLE `dish` DISABLE KEYS */;
-INSERT INTO `dish` VALUES (1,'Жаренная кортошка','20',100,'Images\\kartoshka.jpg','Горячие блюдо'),(2,'Борщ','40',40,'Images\\borsh.jpg','Горячие блюдо'),(3,'Картофельное рагу','30',60,'Images\\ragu.jpg','Горячие блюдо'),(8,'Салат «Витаминный»','15',80,'Images\\Vitamin Salad.jpg','Салат'),(9,'Салат \"Весенний\"','10',75,'Images\\Spring Salad.jpg','Салат');
+INSERT INTO `dish` VALUES (1,'Жаренная кортошка','20',337.5,'Images\\kartoshka.jpg','Горячие блюдо',''),(2,'Борщ','40',135,'Images\\borsh.jpg','Горячие блюдо',''),(3,'Картофельное рагу','30',202.5,'Images\\ragu.jpg','Горячие блюдо',''),(8,'Салат «Витаминный»','15',208,'Images\\Vitamin Salad.jpg','Салат',''),(9,'Салат \"Весенний\"','15',195,'Images\\Spring Salad.jpg','Салат','');
 /*!40000 ALTER TABLE `dish` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -71,4 +74,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-20  9:37:29
+-- Dump completed on 2022-05-24  1:01:43

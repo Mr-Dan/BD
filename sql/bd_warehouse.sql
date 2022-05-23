@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `bd` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bd`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
 -- Host: localhost    Database: bd
@@ -30,7 +32,7 @@ CREATE TABLE `warehouse` (
   PRIMARY KEY (`IdProductsWarehouse`),
   KEY `fk_Warehouse_Products1_idx` (`IdProducts`),
   CONSTRAINT `fk_Warehouse_Products1` FOREIGN KEY (`IdProducts`) REFERENCES `products` (`IdProducts`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,9 +41,108 @@ CREATE TABLE `warehouse` (
 
 LOCK TABLES `warehouse` WRITE;
 /*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
-INSERT INTO `warehouse` VALUES (1,1,230,'05-15-2022 11:09:21'),(2,1,230,'05-15-2022 12:09:21'),(4,3,16,'05-15-2022 18:09:21'),(5,4,10,'05-15-2022 16:09:21'),(6,3,44,'05-17-2022 00:19:04'),(7,6,44,'05-17-2022 00:15:04');
+INSERT INTO `warehouse` VALUES (18,5,45,'05-18-2022 00:45:04'),(25,1,54,'05-17-2022 00:45:04'),(26,6,40,'05-17-2022 00:45:04'),(27,2,20,'05-17-2022 00:45:04'),(28,4,43,'05-17-2022 00:45:04'),(29,3,45,'05-18-2022 00:47:04');
 /*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `bd`.`warehouse_AFTER_INSERT` AFTER INSERT ON `warehouse` FOR EACH ROW
+BEGIN
+DECLARE dish_id INT  DEFAULT 0;    
+DECLARE i INT DEFAULT 0;  
+DECLARE test INT DEFAULT 0;  
+DECLARE Get_Dish CURSOR FOR SELECT IdDish FROM dish;
+
+OPEN Get_Dish;
+while i< (select count(IdDish) from dish) do
+	FETCH Get_Dish INTO dish_id;  	
+		set test= test_function(dish_id);
+        IF(test=0) then
+			update dish set  InStock=0 where IdDish=dish_id;
+        else 
+        update dish set  InStock=1 where IdDish=dish_id;
+        END IF;
+	SET  i=i+1;
+END WHILE;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `bd`.`warehouse_AFTER_UPDATE` AFTER UPDATE ON `warehouse` FOR EACH ROW
+BEGIN
+DECLARE dish_id INT  DEFAULT 0;    
+DECLARE i INT DEFAULT 0;  
+DECLARE test INT DEFAULT 0;  
+DECLARE Get_Dish CURSOR FOR SELECT IdDish FROM dish;
+
+OPEN Get_Dish;
+while i< (select count(IdDish) from dish) do
+	FETCH Get_Dish INTO dish_id;  	
+		set test= test_function(dish_id);
+        IF(test=0) then
+			update dish set  InStock=0 where IdDish=dish_id;
+        else 
+        update dish set  InStock=1 where IdDish=dish_id;
+        END IF;
+	SET  i=i+1;
+END WHILE;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `bd`.`warehouse_AFTER_DELETE` AFTER DELETE ON `warehouse` FOR EACH ROW
+BEGIN
+DECLARE dish_id INT  DEFAULT 0;    
+DECLARE i INT DEFAULT 0;  
+DECLARE test INT DEFAULT 0;  
+DECLARE Get_Dish CURSOR FOR SELECT IdDish FROM dish;
+
+OPEN Get_Dish;
+while i< (select count(IdDish) from dish) do
+	FETCH Get_Dish INTO dish_id;  	
+		set test= test_function(dish_id);
+        IF(test=0) then
+			update dish set  InStock=0 where IdDish=dish_id;
+        else 
+        update dish set  InStock=1 where IdDish=dish_id;
+        END IF;
+	SET  i=i+1;
+END WHILE;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -52,4 +153,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-20  9:37:30
+-- Dump completed on 2022-05-24  1:01:43
